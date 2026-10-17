@@ -4,9 +4,9 @@
 
 ## Start
 
-**Hosted version:** Publish the root contents to GitHub Pages, or serve locally with `python -m http.server 8080` and open `http://localhost:8080/`.
+**Hosted version:** [raid.mightora.io](https://raid.mightora.io/) via GitHub Pages. Deployment is automated by `.github/workflows/pages.yml`; configure the custom domain in GitHub repository Settings → Pages.
 
-**Offline version:** Run `python scripts/build.py`. Extract `dist/raaidd-offline.zip` and double-click `index.html`. The offline edition has **no dependency on a network, CDN, external API or account**. It uses an embedded plain Mightora wordmark rather than loading the official logo asset from GitHub.
+**Offline version:** Run `python scripts/build.py`. Extract `dist/raaidd-offline.zip` and double-click `index.html`. The offline edition has **no dependency on a network, CDN, external API or account**. The offline build embeds the official full Mightora logo directly in its HTML, so no network requests are required.
 
 ## Features delivered
 
