@@ -30,6 +30,42 @@ with tempfile.TemporaryDirectory() as td, sync_playwright() as pw:
     page.locator('#demo').click()
     assert len(page.locator('.record-list-row').all())==10
     assert 'Loaded fictional sample data' in page.locator('#status-line').inner_text()
+    # Relationship graph must render existing links and allow navigation to linked records.
+    page.locator('[data-tab="relationships"]').click()
+    assert page.locator('#tab-relationships').is_visible()
+    assert page.locator('.graph-node').count() >= 5
+    assert page.locator('.linked-row').count() >= 5
+    assert 'unresolved reference' in page.locator('#graph-summary').inner_text()
+    page.locator('#graph-type').select_option('Risk')
+    assert page.locator('.graph-node').count() >= 2, 'type filtering hid connected neighbours'
+    page.locator('#graph-type').select_option('')
+    page.locator('#graph-focus').select_option(label='R-001 · Integration supplier may miss committed delivery')
+    assert page.locator('.graph-node').count() >= 2
+    page.locator('#graph-focus').select_option('')
+    page.locator('.graph-node').first.click()
+    assert page.locator('#tab-register').is_visible(), 'graph node should open record editor'
+    # New relationships are added and removed in the register without losing other data.
+    before=page.locator('.detail-link-row').count()
+    page.locator('#relation-target').select_option('DEC-001')
+    page.locator('#add-relation').click()
+    assert page.locator('.detail-link-row').count()==before+1
+    page.locator('[data-tab="relationships"]').click()
+    assert page.locator('.linked-row').count()>=6
+    page.locator('[data-tab="register"]').click()
+    page.locator('.remove-link').last.click()
+    assert page.locator('.detail-link-row').count()==before
+    # Evidence section is positioned right before the footer and uses real workflow URLs.
+    assert page.locator('mightora-footer').count()==1
+    assert page.locator('mightora-footer').evaluate('(el) => el.previousElementSibling.classList.contains("trust")')
+    assert page.locator('.badges a').count()==5
+    assert page.locator('.badges img').count()==0, 'offline edition should not fetch workflow badges'
+    source_html=(ROOT/'index.html').read_text()
+    assert source_html.count('class="proof-img"')==3, 'hosted edition should use live workflow images'
+    assert 'actions/workflows/codeql.yml/badge.svg' in source_html
+    assert 'actions/workflows/ci.yml/badge.svg' in source_html
+    assert 'actions/workflows/pages.yml/badge.svg' in source_html
+    assert not page.locator('html').evaluate('(el) => el.outerHTML.includes("github.com/mightora/raid.mightora.io/actions/workflows/ci.yml/badge.svg")')
+    assert page.locator('mightora-header').evaluate('(el) => getComputedStyle(el).position')=='sticky'
     # edit and review
     page.locator('[data-edit="title"]').fill('Supplier API delay — testing edition')
     page.locator('#save-record').click()
@@ -69,6 +105,14 @@ with tempfile.TemporaryDirectory() as td, sync_playwright() as pw:
     # load project file and preserve reviewer comments
     page.locator('#file-input').set_input_files(outputs['json']);page.wait_for_timeout(600);print('project status',page.locator('#status-line').inner_text(), 'comments', page.locator('.comment').count(),flush=True)
     assert page.locator('.comment').count()>=2
+    bad=json.loads(outputs['json'].read_text());bad['records'][0]['_relationships'].append({'type':'Blocks','target':'MISSING-EXAMPLE'})
+    invalid=tmp/'bad-relations.raaidd.json';invalid.write_text(json.dumps(bad))
+    page.locator('#file-input').set_input_files(invalid)
+    page.wait_for_timeout(300)
+    page.locator('[data-tab="relationships"]').click()
+    assert page.locator('#graph-summary span').nth(2).locator('b').inner_text()=='1'
+    assert page.locator('.linked-row.has-warning').count()==1
+    page.locator('#file-input').set_input_files(outputs['json'])
     # Export Word & PowerPoint parsable by office libs
     from docx import Document
     document=Document(outputs['docx'])
