@@ -27,6 +27,8 @@ else:
 # Offline biography uses an initials fallback instead of external requests.
 html=re.sub(r'<img src="https://techtweedie\.github\.io[^"]+"[^>]+/>', '<span class="author-initials">IT</span>', html)
 html=re.sub(r'<img src="https://raw\.githubusercontent\.com/TechTweedie[^"]+"[^>]+/>', '', html)
+# Omit online-only badge SVG requests from fully offline edition.
+html=re.sub(r'<img class="proof-img"[^>]*>','',html)
 html=re.sub(r'<a class="button secondary offline-download" href="raaidd-offline.zip" download>.*?</a>','<span class="tag neutral">Offline edition active</span>',html)
 html=re.sub(r'<a href="raaidd-offline.html" download>Standalone offline HTML ↓</a>\s*&nbsp; · &nbsp;','',html)
 # Custom-elements header refers to logo URL as a dormant attribute in the offline edition; remove it from attributes.
