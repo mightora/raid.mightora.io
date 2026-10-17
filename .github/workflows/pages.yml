@@ -21,6 +21,10 @@ jobs:
       - name: Build static and offline editions
         run: python scripts/build.py
       - uses: actions/configure-pages@v5
+      - name: Bundle shared Mightora footer
+        uses: mightora/shared-ui/.github/actions/sync-footer@main
+        with:
+          output-directory: dist
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/
