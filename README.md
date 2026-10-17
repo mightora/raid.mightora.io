@@ -4,9 +4,9 @@
 
 ## Start
 
-**Hosted version:** [raid.mightora.io](https://raid.mightora.io/) via GitHub Pages. Deployment is automated by `.github/workflows/pages.yml`; configure the custom domain in GitHub repository Settings → Pages.
+**Hosted version:** Publish the root contents to GitHub Pages, or serve locally with `python -m http.server 8080` and open `http://localhost:8080/`.
 
-**Offline version:** Run `python scripts/build.py`. Extract `dist/raaidd-offline.zip` and double-click `index.html`. The offline edition has **no dependency on a network, CDN, external API or account**. The offline build embeds the official full Mightora logo directly in its HTML, so no network requests are required.
+**Offline version:** Run `python scripts/build.py`. Extract `dist/raaidd-offline.zip` and double-click `index.html`. The offline edition has **no dependency on a network, CDN, external API or account**. It uses an embedded plain Mightora wordmark rather than loading the official logo asset from GitHub.
 
 ## Features delivered
 
@@ -60,3 +60,9 @@ MIT — see `LICENSE`.
 ## Documentation
 
 See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the data model and [`docs/SECURITY.md`](docs/SECURITY.md) for the threat model and limitations.
+
+## Relationship map and evidence badges
+
+Open **04 Relationships** to see the directed graph of linked RAID/RAAIDD entries. Links made in **02 Register → Related records** are reflected in the graph and the accessible relationship list. Select any node or listed record to inspect/edit it. Use record focus, type filtering, and **Include unlinked records** to change the view. Missing target IDs and ambiguous duplicate IDs are reported clearly. The graph caps rendering at 90 nodes to keep large imports responsive; select a focus record to explore a smaller neighbourhood. Link metadata is included in enhanced XLSX and project exports.
+
+The evidence bar immediately above the site footer links to the live GitHub Actions **Build and test**, **CodeQL security analysis**, and **Deploy GitHub Pages** workflows, as well as the MIT licence and source repository. The online version embeds GitHub's live workflow status SVGs; the offline version removes all remotely fetched badge images while retaining links and explanatory text. A successful CI or CodeQL workflow is evidence of the checks performed, **not** proof that the application is secure or free of defects.
