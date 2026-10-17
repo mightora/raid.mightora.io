@@ -5,3 +5,49 @@
 
 /* Narrow-screen navigation for the locally rendered header / standalone build */
 .mobile-nav{display:none;position:relative;color:var(--navy)}.mobile-nav summary{list-style:none;cursor:pointer;border:1px solid var(--border);padding:9px 11px;border-radius:8px;font-weight:700}.mobile-nav summary::-webkit-details-marker{display:none}.mobile-nav>div{position:absolute;right:0;top:42px;width:180px;background:#fff;box-shadow:0 12px 32px #173a5230;border:1px solid var(--border);border-radius:9px;padding:10px;z-index:120}.mobile-nav a{display:block;padding:9px;color:var(--navy);text-decoration:none}.mobile-nav a:hover{background:var(--pale)}@media(max-width:700px){.local-header .mobile-nav{display:block}.local-header nav{display:none}}
+
+/* Persistent Mightora primary header and workspace navigation */
+mightora-header{display:block;position:sticky;top:0;z-index:100;background:#fff}
+.studio-tabs{top:var(--mightora-header-height,77px);z-index:50}
+html{scroll-padding-top:calc(var(--mightora-header-height,77px) + 65px)}
+#studio,#features,#privacy,.pane{scroll-margin-top:calc(var(--mightora-header-height,77px) + 65px)}
+
+/* Relationship explorer: an SVG diagram backed by an accessible text list. */
+.relationship-controls{display:flex;gap:13px;align-items:end;flex-wrap:wrap;margin:15px 0 12px}
+.relationship-controls label{display:grid;gap:4px;font-size:12px;font-weight:700;color:var(--navy);min-width:160px}
+.relationship-controls select{width:100%;min-height:38px}
+.relationship-controls label:first-child{flex:1;max-width:390px}
+.relationship-controls .graph-checkbox{display:flex;gap:9px;align-items:center;min-height:38px;min-width:0;font-weight:600;color:var(--muted)}
+.relationship-summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:13px}
+.relationship-summary span{display:inline-flex;gap:4px;padding:7px 12px;background:#f2f6f8;border-radius:7px;font-size:12px}
+.relationship-legend{display:flex;gap:13px;flex-wrap:wrap;margin-bottom:16px}
+.relationship-legend span{font-size:11px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.relationship-legend i{display:inline-block;width:11px;height:11px;border-radius:3px}
+.relationship-workspace{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(290px,1fr);gap:13px;align-items:start}
+.relationship-diagram,.relationship-list{padding:18px}
+.graph-scroller{overflow:auto;width:100%;max-height:610px;min-height:175px;border:1px solid var(--border);border-radius:10px;background:radial-gradient(circle,#e8edf1 1px,transparent 1.4px) 0 0 / 21px 21px;margin:15px 0 10px}
+.relationship-svg{display:block;max-width:none;min-width:930px}
+.graph-node{cursor:pointer;outline:none}
+.graph-node:hover rect:first-child,.graph-node:focus rect:first-child{stroke-width:4}
+.graph-node:focus-visible rect:first-child{stroke:#138881;stroke-width:4}
+.graph-edge-label{paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round}
+#relationship-rows{display:grid;gap:7px;margin-top:15px;max-height:560px;overflow:auto}
+.linked-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:10px 8px;background:var(--pale);border-radius:6px;font-size:12px}
+.linked-row.has-warning{background:#fff5e6}
+.linked-verb{color:var(--muted);font-size:11px}
+.graph-record-link{border:0;background:transparent;color:#176a77;text-decoration:underline;text-underline-offset:2px;padding:2px;font-size:12px;font-weight:750;text-align:left}
+.graph-record-link:hover{color:var(--navy)}
+.relation-warning{color:#a65d19}
+.detail-link-row{display:flex;gap:10px;align-items:center;justify-content:space-between;margin:5px 0}
+.remove-link{border:1px solid var(--border);background:#fff;color:var(--muted);font-size:11px;border-radius:5px;padding:3px 7px}
+.remove-link:hover{border-color:var(--red);color:var(--red)}
+
+/* Evidence-backed badges, grouped immediately above the footer. */
+.trust{padding-top:22px;padding-bottom:25px}
+.trust-intro{font-size:12px;line-height:1.55;margin-bottom:13px;color:var(--muted)}
+.badges{align-items:center;gap:10px}
+.badges .workflow-badge,.badges .trust-link{display:inline-flex;align-items:center;gap:7px;min-height:34px;background:white;padding:5px 10px;color:var(--navy);border:1px solid var(--border);border-radius:6px;text-decoration:none;font-size:11px;font-weight:700}
+.badges .workflow-badge:hover,.badges .trust-link:hover{border-color:var(--fb-accent);background:#f4fbfa}
+.proof-img{height:20px;width:auto;max-width:175px;object-fit:contain}
+@media(max-width:950px){.relationship-workspace{grid-template-columns:1fr}.relationship-list{max-width:none}}
+@media(max-width:700px){.relationship-controls label:first-child{max-width:none;flex:1 1 100%}.relationship-controls label{flex:1 1 160px}.relationship-summary{gap:6px}.relationship-diagram,.relationship-list{padding:12px}.badges .workflow-badge,.badges .trust-link{flex-wrap:wrap}}
